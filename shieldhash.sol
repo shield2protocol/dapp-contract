@@ -10,13 +10,14 @@ contract ShieldHash {
     mapping(address => data[]) sOwner;
 
     // Send a hashinfo ( Four-Tier Encrypted Data ) to a owner box 
-    // _sOwner :: sender address, _hashinfo :: Encrypted Data 
-    function setHashinfo(address _sOwner, string memory _hashinfo) external {
+    // _hashinfo:: Encrypted Data ( Long length data ) 
+    // ( Before transaction, Estimated gas fee will be approved by user )
+    function setHashinfo(string memory _hashinfo) external {
         
         require(bytes(_hashinfo).length >= 10, "data length is too small.");
        
         data memory message = data(_hashinfo, msg.sender, block.timestamp);
-        sOwner[_sOwner].push(message);
+        sOwner[msg.sender].push(message);
     }
 
     // Currently, there is no support for returning nested lists, so the length
